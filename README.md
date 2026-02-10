@@ -6,22 +6,25 @@ It simulates high-volume user interaction events (impressions, clicks, conversio
 
 The goal is to demonstrate production-grade streaming data engineering patterns: schema enforcement, deduplication, watermarking, fault tolerance, and incremental analytics.
 
-### High Level Flow 
+### Project Structure
 ~~~
-Event Producers
-   ↓
-Kafka Topics (impressions, clicks, conversions)
-   ↓
-Spark Structured Streaming
-   ↓
-Bronze (raw events, schema-on-read)
-   ↓
-Silver (cleaned, deduplicated, enriched)
-   ↓
-Gold (aggregations & attribution)
-   ↓
-Analytics / BI / ML
+.
+├── jobs/
+│   ├── 01_bronze_kafka_to_parquet.py
+│   ├── 02_silver_parquet_to_delta.py
+│   └── 03_gold_attribution.py
+|   └── config.py
+├── docker-compose.yml
+|
+├── Kafka_Producer/
+│   ├── clickstream_producer.py
+|   ├── producer_config.py
+│   └── event_tracker.py
+└── README.md
 ~~~
+## Architecture Diagram
+
+<img width="1536" height="1024" alt="ArchitectureDiagram" src="https://github.com/user-attachments/assets/bddb6161-7872-44cf-952d-36321f256893" />
 
 ### 🐳 Local Development Setup
 
