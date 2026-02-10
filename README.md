@@ -34,7 +34,48 @@ The goal is to demonstrate production-grade streaming data engineering patterns:
   - Schema Registry
   - Redpanda Console
 
+### 🚀 What This Project Demonstrates
 
+  - Real-time streaming pipelines
+  - Production-ready Spark + Kafka patterns
+  - Delta Lake on S3
+  - Medallion architecture best practices
+  - Exactly-once, fault-tolerant streaming design
+
+## 🗂️ Data Layers (Medallion Architecture)
+#### 🟤 Bronze Layer (Raw)
+  Source: Kafka
+  Format: Parquet
+  Storage: s3a://clickstream-event-data/bronze/
+  Characteristics:
+        - Raw, append-only events
+        - Minimal transformation
+        - Partitioned by kafka_topic and ingest_date
+#### ⚪ Silver Layer (Refined – Delta Lake)
+  Source: Bronze
+  Format: Delta
+  Storage: delta/silver/impressions
+           delta/silver/clicks
+           delta/silver/conversions
+  Transformations:
+      - Schema enforcement
+      - Deduplication using event_id
+      - Event-time extraction & normalization
+      - Watermarking (event_ts)
+      - Partitioning by event_date
+  Guarantees:
+      Exactly-once processing
+      Fault tolerance via checkpoints
+      
+#### 🟡 Gold Layer (Analytics-Ready)
+  Source: Silver
+  Format: Delta
+  Examples:
+      - Campaign-level attribution
+      - Click-through rates
+      - Conversion funnels
+      - Revenue aggregation
+      - Optimized for BI and ML workloads
 
 
 
